@@ -1,0 +1,21 @@
+language: php
+dist: trusty
+
+php:
+  - 5.5
+  - 5.6
+  - 7.0
+  - 7.1
+  - 7.2
+  - nightly
+
+matrix:
+  fast_finish: true
+
+before_script:
+  - if php --ri xdebug >/dev/null; then phpenv config-rm xdebug.ini; fi
+  - composer self-update
+  - composer -n --prefer-dist install --no-dev
+
+script:
+  - composer test
