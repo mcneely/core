@@ -65,6 +65,7 @@ Temporary Items
 
 
 ### Composer template
+bin/
 composer.lock
 composer.phar
 /vendor/
