@@ -37,14 +37,19 @@ trait CoreTrait
     }
 
     /**
-     * @param object|false $eventClassObject
-     * @param object|false $eventImmediateClass
-     * @param object|false $eventMethod
-     * @param object|false $eventTrait
+     * @param object $eventClassObject
+     * @param string $eventImmediateClass
+     * @param string $eventMethod
+     * @param string $eventTrait
      *
      * @return $this
      */
-    protected function fireEvents_CoreTrait($eventClassObject, $eventImmediateClass, $eventMethod, $eventTrait)
+    protected function fireEvents_CoreTrait(
+        $eventClassObject,
+        $eventImmediateClass = '',
+        $eventMethod = '',
+        $eventTrait = ''
+    )
     {
         if (!$this->CoreTrait_hasSetUp) {
             $this->CoreTrait_hasSetUp = true;
@@ -62,7 +67,7 @@ trait CoreTrait
             }
         }
 
-        $eventMethodArray = explode('::', $eventMethod);
+        $eventMethodArray = !empty($eventMethod) ? explode('::', $eventMethod) : [];
         $eventMethodShort = array_pop($eventMethodArray);
         $beforeMethod     = "__fireBefore_".$eventMethodShort;
         $triggers         = [];
