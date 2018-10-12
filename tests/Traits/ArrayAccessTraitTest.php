@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: mcneely
- * Date: 10/9/18
- * Time: 8:59 PM
- */
 
 namespace tests\Traits;
 

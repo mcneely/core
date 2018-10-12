@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: mcneely
- * Date: 9/23/18
- * Time: 5:53 PM
- */
 
 namespace Mcneely\Core\Traits;
 
