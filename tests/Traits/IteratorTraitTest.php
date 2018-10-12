@@ -5,7 +5,7 @@ namespace tests\Traits;
 
 use Mcneely\Core\Traits\CoreTrait;
 use Mcneely\Core\Traits\IteratorTrait;
-use PHPStan\Testing\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class IteratorTraitTest extends TestCase
 {
