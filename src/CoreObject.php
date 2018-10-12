@@ -58,7 +58,7 @@ class CoreObject
      */
     public function getClass()
     {
-        return get_class($this->object);
+        return get_class($this->getObject());
     }
 
     /**
@@ -68,7 +68,7 @@ class CoreObject
      */
     public function isInstanceOf($instance)
     {
-        return ($this->object instanceof $instance);
+        return ($this->getObject() instanceof $instance);
     }
 
     /**
@@ -78,11 +78,11 @@ class CoreObject
      */
     public function hasMethod($method)
     {
-        return method_exists($this->object, $method);
+        return method_exists($this->getObject(), $method);
     }
 
     public function isArray()
     {
-        return is_array($this->object);
+        return is_array($this->getObject());
     }
 }
