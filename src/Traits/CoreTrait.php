@@ -52,19 +52,7 @@ trait CoreTrait
     )
     {
         if (!$this->CoreTrait_hasSetUp) {
-            $this->CoreTrait_hasSetUp = true;
-            $traits                   = array_merge(class_uses($eventImmediateClass), class_uses($eventClassObject));
-            foreach ($traits as $key => $trait) {
-                $traits[$key] = basename(str_replace('\\', '/', $trait));
-            }
-
-            $methods = preg_grep('/^__setUp_/', get_class_methods(get_class($eventClassObject)));
-
-            foreach ($methods as $method) {
-                if (in_array(substr($method, 8), $traits)) {
-                    $eventClassObject->$method();
-                }
-            }
+            $this->fireStartup_CoreTrait($eventClassObject, $eventImmediateClass);
         }
 
         $eventMethodArray = !empty($eventMethod) ? explode('::', $eventMethod) : [];
@@ -100,6 +88,28 @@ trait CoreTrait
 
         return $this;
     }
+
+    /**
+     * @param object $eventClassObject
+     * @param string $eventImmediateClass
+     */
+    private function fireStartup_CoreTrait($eventClassObject, $eventImmediateClass)
+    {
+        $this->CoreTrait_hasSetUp = true;
+        $traits                   = array_merge(class_uses($eventImmediateClass), class_uses($eventClassObject));
+        foreach ($traits as $key => $trait) {
+            $traits[$key] = basename(str_replace('\\', '/', $trait));
+        }
+
+        $methods = preg_grep('/^__setUp_/', get_class_methods(get_class($eventClassObject)));
+
+        foreach ($methods as $method) {
+            if (in_array(substr($method, 8), $traits)) {
+                $eventClassObject->$method();
+            }
+        }
+    }
+
 
     protected function registerEvent_CoreTrait($onFunction, $triggerMethod, array $exclude = [])
     {
