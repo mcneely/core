@@ -38,5 +38,7 @@ trait JsonSerializableTrait
         if ($this->getCoreObject_CoreTrait()->isInstanceOf("\Traversable")) {
             return iterator_to_array($object);
         }
+
+        return (array) $object;
     }
 }

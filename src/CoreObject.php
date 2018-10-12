@@ -18,7 +18,7 @@ class CoreObject
     /**
      * CoreObject constructor.
      *
-     * @param $object
+     * @param mixed $object
      */
     public function __construct($object)
     {
@@ -36,7 +36,7 @@ class CoreObject
      *
      * @return CoreObject
      */
-    public function setRetriever($retriever)
+    public function setRetriever(callable $retriever)
     {
         $this->retriever = $retriever;
 

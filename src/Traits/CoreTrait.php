@@ -18,6 +18,8 @@ trait CoreTrait
      */
     protected function getCoreObject_CoreTrait()
     {
+        $this->fireEvents_CoreTrait($this, __CLASS__, __METHOD__, __TRAIT__);
+
         return $this->CoreTrait_CoreObject;
     }
 
@@ -29,14 +31,24 @@ trait CoreTrait
     protected function setCoreObject_CoreTrait($object = null)
     {
         $this->CoreTrait_CoreObject = new CoreObject($object);
+        $this->fireEvents_CoreTrait($this, __CLASS__, __METHOD__, __TRAIT__);
 
         return $this;
     }
 
-    protected function fireEvents_CoreTrait($eventClassObject, $eventImmediateClass, $eventMethod, $eventTrait = null)
+    /**
+     * @param object|false $eventClassObject
+     * @param object|false $eventImmediateClass
+     * @param object|false $eventMethod
+     * @param object|false $eventTrait
+     *
+     * @return $this
+     */
+    protected function fireEvents_CoreTrait($eventClassObject, $eventImmediateClass, $eventMethod, $eventTrait)
     {
         if (!$this->CoreTrait_hasSetUp) {
-            $traits = array_merge(class_uses($eventImmediateClass), class_uses($eventClassObject));
+            $this->CoreTrait_hasSetUp = true;
+            $traits                   = array_merge(class_uses($eventImmediateClass), class_uses($eventClassObject));
             foreach ($traits as $key => $trait) {
                 $traits[$key] = basename(str_replace('\\', '/', $trait));
             }
@@ -48,7 +60,6 @@ trait CoreTrait
                     $eventClassObject->$method();
                 }
             }
-            $this->CoreTrait_hasSetUp = true;
         }
 
         $eventMethodArray = explode('::', $eventMethod);
@@ -73,7 +84,12 @@ trait CoreTrait
         foreach ($triggers as $trigger) {
             if (!in_array($eventMethodShort, $trigger['exclude'])) {
                 $method = $trigger['method'];
-                $eventClassObject->$method();
+                if ($method instanceof \Closure) {
+                    $closure = \Closure::bind($method, $eventClassObject);
+                    $closure();
+                } else {
+                    $eventClassObject->$method();
+                }
             }
         }
 
