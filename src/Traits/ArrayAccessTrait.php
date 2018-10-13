@@ -15,8 +15,7 @@ trait ArrayAccessTrait
     {
         $this->fireEvents_CoreTrait($this, __CLASS__, __METHOD__, __TRAIT__);
 
-        return $this->getCoreObject_CoreTrait()
-                    ->getObject()
+        return $this->getObject_ArrayAccessTrait()
                     ->offsetExists($offset);
     }
 
@@ -24,8 +23,7 @@ trait ArrayAccessTrait
     {
         $this->fireEvents_CoreTrait($this, __CLASS__, __METHOD__, __TRAIT__);
 
-        return $this->getCoreObject_CoreTrait()
-                    ->getObject()
+        return $this->getObject_ArrayAccessTrait()
                     ->offsetGet($offset);
     }
 
@@ -33,8 +31,7 @@ trait ArrayAccessTrait
     {
         $this->fireEvents_CoreTrait($this, __CLASS__, __METHOD__, __TRAIT__);
 
-        $this->getCoreObject_CoreTrait()
-             ->getObject()
+        $this->getObject_ArrayAccessTrait()
              ->offsetSet($offset, $value);
 
         return $this;
@@ -44,10 +41,15 @@ trait ArrayAccessTrait
     {
         $this->fireEvents_CoreTrait($this, __CLASS__, __METHOD__, __TRAIT__);
 
-        $this->getCoreObject_CoreTrait()
-             ->getObject()
+        $this->getObject_ArrayAccessTrait()
              ->offsetUnset($offset);
 
         return $this;
+    }
+
+    private function getObject_ArrayAccessTrait() {
+        $object = $this->getCoreObject_CoreTrait()
+                    ->getObject();
+        return ($object instanceof \Generator) ? iterator_to_array($object) : $object;
     }
 }
