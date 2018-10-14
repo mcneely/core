@@ -10,8 +10,8 @@ trait CoreTrait
     private $CoreTrait_CoreObject = null;
     /** @var bool $CoreTrait_hasSetUp */
     private $CoreTrait_hasSetUp = false;
-    /** @var array $coreTrait_events */
-    private $coreTrait_events = [];
+    /** @var array $CoreTrait_events */
+    private $CoreTrait_events = [];
 
     /**
      * @return CoreObject
@@ -30,6 +30,8 @@ trait CoreTrait
      */
     protected function setCoreObject_CoreTrait($object = null)
     {
+        $this->CoreTrait_hasSetUp   = false;
+        $this->CoreTrait_events     = [];
         $this->CoreTrait_CoreObject = new CoreObject($object);
         $this->fireEvents_CoreTrait($this, __CLASS__, __METHOD__, __TRAIT__);
 
@@ -69,9 +71,9 @@ trait CoreTrait
 
         $functionTriggers = array_key_exists(
             $eventMethodShort,
-            $this->coreTrait_events
-        ) ? $this->coreTrait_events[$eventMethodShort] : [];
-        $wildCardTriggers = array_key_exists('*', $this->coreTrait_events) ? $this->coreTrait_events['*'] : [];
+            $this->CoreTrait_events
+        ) ? $this->CoreTrait_events[$eventMethodShort] : [];
+        $wildCardTriggers = array_key_exists('*', $this->CoreTrait_events) ? $this->CoreTrait_events['*'] : [];
         $triggers         = array_merge($triggers, $functionTriggers, $wildCardTriggers);
 
         foreach ($triggers as $trigger) {
@@ -113,7 +115,7 @@ trait CoreTrait
 
     protected function registerEvent_CoreTrait($onFunction, $triggerMethod, array $exclude = [])
     {
-        $this->coreTrait_events[$onFunction][] = [
+        $this->CoreTrait_events[$onFunction][] = [
             'method'  => $triggerMethod,
             'exclude' => ($onFunction === '*') ? $exclude : [],
         ];

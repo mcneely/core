@@ -12,8 +12,8 @@ class CoreObject
     /** @var mixed $object */
     protected $object;
 
-    /** @var callable */
-    protected $retriever;
+    /** @var callable|false */
+    protected $retriever = false;
 
     /**
      * CoreObject constructor.
@@ -23,12 +23,6 @@ class CoreObject
     public function __construct($object)
     {
         $this->object = $object;
-
-        $this->setRetriever(
-            function ($object) {
-                return $object;
-            }
-        );
     }
 
     /**
@@ -43,14 +37,19 @@ class CoreObject
         return $this;
     }
 
+    public function hasRetriever() {
+        return (bool) $this->retriever;
+    }
     /**
+     * @param bool $useRetriever
+     *
      * @return mixed
      */
-    public function getObject()
+    public function getObject($useRetriever = true)
     {
         $retriever = $this->retriever;
 
-        return $retriever($this->object);
+        return ($retriever && $useRetriever) ? $retriever($this->object) : $this->object;
     }
 
     /**
@@ -58,7 +57,7 @@ class CoreObject
      */
     public function getClass()
     {
-        return get_class($this->getObject());
+        return get_class($this->object);
     }
 
     /**
@@ -68,7 +67,7 @@ class CoreObject
      */
     public function isInstanceOf($instance)
     {
-        return ($this->getObject() instanceof $instance);
+        return ($this->object instanceof $instance);
     }
 
     /**
@@ -78,11 +77,11 @@ class CoreObject
      */
     public function hasMethod($method)
     {
-        return method_exists($this->getObject(), $method);
+        return method_exists($this->object, $method);
     }
 
     public function isArray()
     {
-        return is_array($this->getObject());
+        return is_array($this->object);
     }
 }

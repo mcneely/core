@@ -2,11 +2,14 @@
 
 namespace Mcneely\Core\Traits;
 
-/**r
+use ArrayIterator;
+
+/**
  * Trait ArrayAccessTrait
  *
  * @package Mcneely\Core\Traits
  * @method \Mcneely\Core\CoreObject getCoreObject_CoreTrait()
+ * @method mixed setCoreObject_CoreTrait()
  * @method mixed fireEvents_CoreTrait($eventClassObject, $eventImmediateClass, $eventMethod, $eventTrait)
  */
 trait ArrayAccessTrait
@@ -15,24 +18,26 @@ trait ArrayAccessTrait
     {
         $this->fireEvents_CoreTrait($this, __CLASS__, __METHOD__, __TRAIT__);
 
-        return $this->getObject_ArrayAccessTrait()
-                    ->offsetExists($offset);
+        $object = $this->unwrap_ArrayAccessTrait();
+
+        return $object->offsetExists($offset);
     }
 
     public function offsetGet($offset)
     {
         $this->fireEvents_CoreTrait($this, __CLASS__, __METHOD__, __TRAIT__);
 
-        return $this->getObject_ArrayAccessTrait()
-                    ->offsetGet($offset);
+        $object = $this->unwrap_ArrayAccessTrait();
+
+        return $object->offsetGet($offset);
     }
 
     public function offsetSet($offset, $value)
     {
         $this->fireEvents_CoreTrait($this, __CLASS__, __METHOD__, __TRAIT__);
 
-        $this->getObject_ArrayAccessTrait()
-             ->offsetSet($offset, $value);
+        $object = $this->unwrap_ArrayAccessTrait();
+        $object->offsetSet($offset, $value);
 
         return $this;
     }
@@ -41,15 +46,20 @@ trait ArrayAccessTrait
     {
         $this->fireEvents_CoreTrait($this, __CLASS__, __METHOD__, __TRAIT__);
 
-        $this->getObject_ArrayAccessTrait()
-             ->offsetUnset($offset);
+        $object = $this->unwrap_ArrayAccessTrait();
+        $object->offsetUnset($offset);
 
         return $this;
     }
 
-    private function getObject_ArrayAccessTrait() {
-        $object = $this->getCoreObject_CoreTrait()
-                    ->getObject();
-        return ($object instanceof \Generator) ? iterator_to_array($object) : $object;
+    protected function unwrap_ArrayAccessTrait() {
+        $object = $this->getCoreObject_CoreTrait()->getObject(false);
+        $object = ($object instanceof \IteratorAggregate) ? $object->getIterator() : $object;
+        $object = ($object instanceof \IteratorIterator) ? $object->getInnerIterator() : $object;
+        $object = ($object instanceof \Iterator) ? iterator_to_array($object) : (array) $object;
+        $object = new ArrayIterator($object);
+        $this->setCoreObject_CoreTrait($object);
+
+        return $object;
     }
 }
