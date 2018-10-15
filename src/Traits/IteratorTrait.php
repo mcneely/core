@@ -2,12 +2,14 @@
 
 namespace Mcneely\Core\Traits;
 
+use ArrayIterator;
 /**
  * Trait IteratorTrait
  *
  * @package Mcneely\Core\Traits
  * @method \Mcneely\Core\CoreObject getCoreObject_CoreTrait()
  * @method mixed fireEvents_CoreTrait($eventClassObject, $eventImmediateClass, $eventMethod, $event)
+ * @method mixed setCoreObject_CoreTrait($object = null)
  */
 trait IteratorTrait
 {
@@ -53,9 +55,16 @@ trait IteratorTrait
     {
         $this->fireEvents_CoreTrait($this, __CLASS__, __METHOD__, __TRAIT__);
 
-        $this->getCoreObject_CoreTrait()
-             ->getObject()
-             ->rewind();
+        $object = $this->getCoreObject_CoreTrait()
+                       ->getObject();
+
+        if ($this->getCoreObject_CoreTrait()->hasMethod('rewind') && !$object instanceof \Generator) {
+            $object->rewind();
+        }
+
+        $object = ($object instanceof \Iterator) ? iterator_to_array($object) : (array) $object;
+        $object = new ArrayIterator($object);
+        $this->setCoreObject_CoreTrait($object);
 
         return $this;
     }
