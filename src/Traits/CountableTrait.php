@@ -21,12 +21,15 @@ trait CountableTrait
         $object = $this->getCoreObject_CoreTrait()
                        ->getObject();
 
-        if ($this->getCoreObject_CoreTrait()->hasMethod('count')) {
-            return $object->count();
+        if (
+            $this->getCoreObject_CoreTrait()->isInstanceOf("\Traversable") &&
+            (!$this->getCoreObject_CoreTrait()->hasMethod('count') || $object instanceof \Generator)
+        ) {
+            return iterator_count($object);
         }
 
-        if ($this->getCoreObject_CoreTrait()->isInstanceOf("\Traversable")) {
-            return iterator_count($object);
+        if ($this->getCoreObject_CoreTrait()->hasMethod('count')) {
+            return $object->count();
         }
 
         return count($object);
