@@ -2,7 +2,6 @@
 
 namespace tests\Traits;
 
-
 use Mcneely\Core\Traits\CoreTrait;
 use Mcneely\Core\Traits\JsonSerializableTrait;
 use PHPUnit\Framework\TestCase;

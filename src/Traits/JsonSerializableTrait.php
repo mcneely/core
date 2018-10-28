@@ -3,9 +3,10 @@
 namespace Mcneely\Core\Traits;
 
 /**
- * Trait JsonSerializableTrait
+ * Trait JsonSerializableTrait.
  *
  * @package Mcneely\Core\Traits
+ *
  * @method \Mcneely\Core\CoreObject getCoreObject_CoreTrait()
  * @method mixed fireEvents_CoreTrait($eventClassObject, $eventImmediateClass, $eventMethod, $eventTrait)
  */
