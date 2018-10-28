@@ -21,7 +21,7 @@ class CountableTraitTest extends TestCase
 {
     public function testCountable()
     {
-        $array     = [1, 2, 3];
+        $array = [1, 2, 3];
         $countable = new CountableTestClass($array);
         $this->assertEquals(3, count($countable));
         $countable = new CountableTestClass(new \ArrayObject($array));
@@ -33,7 +33,5 @@ class CountableTraitTest extends TestCase
         };
         $countable = new CountableTestClass($generator($array));
         $this->assertEquals(3, count($countable));
-
     }
-
 }

@@ -5,9 +5,8 @@ namespace Mcneely\Core\Traits;
 use ArrayIterator;
 
 /**
- * Trait ArrayAccessTrait
+ * Trait ArrayAccessTrait.
  *
- * @package Mcneely\Core\Traits
  * @method \Mcneely\Core\CoreObject getCoreObject_CoreTrait()
  * @method mixed setCoreObject_CoreTrait()
  * @method mixed fireEvents_CoreTrait($eventClassObject, $eventImmediateClass, $eventMethod, $eventTrait)
@@ -52,7 +51,8 @@ trait ArrayAccessTrait
         return $this;
     }
 
-    protected function unwrap_ArrayAccessTrait() {
+    protected function unwrap_ArrayAccessTrait()
+    {
         $object = $this->getCoreObject_CoreTrait()->getObject(false);
         $object = ($object instanceof \IteratorAggregate) ? $object->getIterator() : $object;
         $object = ($object instanceof \IteratorIterator) ? $object->getInnerIterator() : $object;

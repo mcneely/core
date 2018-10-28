@@ -3,9 +3,8 @@
 namespace Mcneely\Core\Traits;
 
 /**
- * Trait CountableTrait
+ * Trait CountableTrait.
  *
- * @package Mcneely\Core\Traits
  * @method  \Mcneely\Core\CoreObject getCoreObject_CoreTrait()
  * @method mixed fireEvents_CoreTrait($eventClassObject, $eventImmediateClass, $eventMethod, $event)
  */

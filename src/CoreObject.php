@@ -3,9 +3,7 @@
 namespace Mcneely\Core;
 
 /**
- * Class CoreObject
- *
- * @package Mcneely\Core
+ * Class CoreObject.
  */
 class CoreObject
 {
@@ -37,9 +35,11 @@ class CoreObject
         return $this;
     }
 
-    public function hasRetriever() {
+    public function hasRetriever()
+    {
         return (bool) $this->retriever;
     }
+
     /**
      * @param bool $useRetriever
      *
@@ -63,17 +63,17 @@ class CoreObject
     /**
      * @param string $instance
      *
-     * @return boolean
+     * @return bool
      */
     public function isInstanceOf($instance)
     {
-        return ($this->object instanceof $instance);
+        return $this->object instanceof $instance;
     }
 
     /**
      * @param string $method
      *
-     * @return boolean
+     * @return bool
      */
     public function hasMethod($method)
     {

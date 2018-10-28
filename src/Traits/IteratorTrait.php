@@ -3,10 +3,10 @@
 namespace Mcneely\Core\Traits;
 
 use ArrayIterator;
+
 /**
- * Trait IteratorTrait
+ * Trait IteratorTrait.
  *
- * @package Mcneely\Core\Traits
  * @method \Mcneely\Core\CoreObject getCoreObject_CoreTrait()
  * @method mixed fireEvents_CoreTrait($eventClassObject, $eventImmediateClass, $eventMethod, $event)
  * @method mixed setCoreObject_CoreTrait($object = null)
