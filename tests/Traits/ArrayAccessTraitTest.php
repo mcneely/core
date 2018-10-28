@@ -11,9 +11,10 @@ class ArrayAccessTraitTest extends TestCase
 {
     use CoreTrait;
     use ArrayAccessTrait;
+
     protected $array = [
         'Test1' => 'Test',
-        'Test2' => 'Test'
+        'Test2' => 'Test',
     ];
 
     public function setUp()
@@ -39,7 +40,6 @@ class ArrayAccessTraitTest extends TestCase
         $this->assertFalse($this->offsetExists('Test3'));
     }
 
-
     public function testOffsetSetGetUnset()
     {
         $generator = function ($object) {
@@ -59,6 +59,4 @@ class ArrayAccessTraitTest extends TestCase
         $this->offsetUnset('Test2');
         $this->assertFalse($this->offsetExists('Test2'));
     }
-
-
 }

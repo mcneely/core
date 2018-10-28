@@ -8,8 +8,10 @@ trait CoreTrait
 {
     /** @var CoreObject */
     private $CoreTrait_CoreObject = null;
+
     /** @var bool $CoreTrait_hasSetUp */
     private $CoreTrait_hasSetUp = false;
+
     /** @var array $CoreTrait_events */
     private $CoreTrait_events = [];
 
@@ -51,15 +53,14 @@ trait CoreTrait
         $eventImmediateClass = '',
         $eventMethod = '',
         $eventTrait = ''
-    )
-    {
+    ) {
         if (!$this->CoreTrait_hasSetUp) {
             $this->fireStartup_CoreTrait($eventClassObject, $eventImmediateClass);
         }
 
         $eventMethodArray = !empty($eventMethod) ? explode('::', $eventMethod) : [];
         $eventMethodShort = array_pop($eventMethodArray);
-        $beforeMethod     = "__fireBefore_".$eventMethodShort;
+        $beforeMethod     = '__fireBefore_'.$eventMethodShort;
         $triggers         = [];
 
         if (method_exists($eventClassObject, $beforeMethod)) {
@@ -112,12 +113,11 @@ trait CoreTrait
         }
     }
 
-
     protected function registerEvent_CoreTrait($onFunction, $triggerMethod, array $exclude = [])
     {
         $this->CoreTrait_events[$onFunction][] = [
             'method'  => $triggerMethod,
-            'exclude' => ($onFunction === '*') ? $exclude : [],
+            'exclude' => ('*' === $onFunction) ? $exclude : [],
         ];
 
         return $this;
