@@ -3,9 +3,10 @@
 namespace Mcneely\Core\Traits;
 
 /**
- * Trait GeneratorTrait
+ * Trait GeneratorTrait.
  *
  * @package Mcneely\Core\Traits
+ *
  * @method \Mcneely\Core\CoreObject getCoreObject_CoreTrait()
  */
 trait GeneratorTrait
