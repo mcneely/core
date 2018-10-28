@@ -33,7 +33,5 @@ class CountableTraitTest extends TestCase
         };
         $countable = new CountableTestClass($generator($array));
         $this->assertEquals(3, count($countable));
-
     }
-
 }

@@ -2,7 +2,6 @@
 
 namespace tests\Traits;
 
-
 use Mcneely\Core\Traits\CoreTrait;
 use Mcneely\Core\Traits\GeneratorTrait;
 use PHPUnit\Framework\TestCase;
@@ -20,5 +19,4 @@ class GeneratorTraitTest extends TestCase
         }
         $this->assertEquals($value, 2);
     }
-
 }
