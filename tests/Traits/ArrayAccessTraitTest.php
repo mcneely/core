@@ -19,7 +19,7 @@ class ArrayAccessTraitTest extends TestCase
 
     public function setUp()
     {
-        $this->setCoreObject_CoreTrait(
+        $this->CoreTrait_setCoreObject(
             new \ArrayObject($this->array)
         );
     }
@@ -34,9 +34,9 @@ class ArrayAccessTraitTest extends TestCase
 
         $this->assertTrue($this->offsetExists('Test2'));
         $this->assertFalse($this->offsetExists('Test3'));
-        $this->setCoreObject_CoreTrait(new IteratorIterator($generator($this->array)));
+        $this->CoreTrait_setCoreObject(new IteratorIterator($generator($this->array)));
         $this->assertTrue($this->offsetExists('Test2'));
-        $this->setCoreObject_CoreTrait(new IteratorIterator($generator($this->array)));
+        $this->CoreTrait_setCoreObject(new IteratorIterator($generator($this->array)));
         $this->assertFalse($this->offsetExists('Test3'));
     }
 
@@ -52,10 +52,10 @@ class ArrayAccessTraitTest extends TestCase
         $this->assertEquals($this->offsetGet('Test4'), 'Test');
         $this->offsetUnset('Test2');
         $this->assertFalse($this->offsetExists('Test2'));
-        $this->setCoreObject_CoreTrait(new IteratorIterator($generator($this->array)));
+        $this->CoreTrait_setCoreObject(new IteratorIterator($generator($this->array)));
         $this->offsetSet('Test4', 'Test');
         $this->assertEquals($this->offsetGet('Test4'), 'Test');
-        $this->setCoreObject_CoreTrait(new IteratorIterator($generator($this->array)));
+        $this->CoreTrait_setCoreObject(new IteratorIterator($generator($this->array)));
         $this->offsetUnset('Test2');
         $this->assertFalse($this->offsetExists('Test2'));
     }

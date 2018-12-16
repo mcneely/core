@@ -18,32 +18,32 @@ class CoreTraitTest extends TestCase
     public function setUp()
     {
         $this->object = new \ArrayObject([1, 2, 3]);
-        $this->setCoreObject_CoreTrait($this->object);
-        $this->registerEvent_CoreTrait('testRegisteredEvent', function () {
+        $this->CoreTrait_setCoreObject($this->object);
+        $this->CoreTrait_registerEvent('testRegisteredEvent', function () {
             $this->registeredEventFired = true;
         });
     }
 
     public function testIsInstanceOf()
     {
-        $this->assertTrue($this->getCoreObject_CoreTrait()->isInstanceOf(get_class($this->object)));
-        $this->assertFalse($this->getCoreObject_CoreTrait()->isInstanceOf('string'));
+        $this->assertTrue($this->CoreTrait_getCoreObject()->isInstanceOf(get_class($this->object)));
+        $this->assertFalse($this->CoreTrait_getCoreObject()->isInstanceOf('string'));
     }
 
     public function testHasMethod()
     {
-        $this->assertTrue($this->getCoreObject_CoreTrait()->hasMethod('__construct'));
-        $this->assertFalse($this->getCoreObject_CoreTrait()->hasMethod('NoThisIsNotARealMethod'));
+        $this->assertTrue($this->CoreTrait_getCoreObject()->hasMethod('__construct'));
+        $this->assertFalse($this->CoreTrait_getCoreObject()->hasMethod('NoThisIsNotARealMethod'));
     }
 
     public function testGetClass()
     {
-        $this->assertEquals(get_class($this->object), $this->getCoreObject_CoreTrait()->getClass());
+        $this->assertEquals(get_class($this->object), $this->CoreTrait_getCoreObject()->getClass());
     }
 
     public function testBeforeMethod()
     {
-        $this->fireEvents_CoreTrait($this, __CLASS__, __METHOD__, __TRAIT__);
+        $this->CoreTrait_fireEvents($this, __CLASS__, __METHOD__, __TRAIT__);
         $this->assertTrue($this->beforeMethodFired);
     }
 
@@ -54,7 +54,7 @@ class CoreTraitTest extends TestCase
 
     public function testRegisteredEvent()
     {
-        $this->fireEvents_CoreTrait($this, __CLASS__, __METHOD__, __TRAIT__);
+        $this->CoreTrait_fireEvents($this, __CLASS__, __METHOD__, __TRAIT__);
         $this->assertTrue($this->registeredEventFired);
     }
 }

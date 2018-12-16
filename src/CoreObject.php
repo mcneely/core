@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 
 namespace Mcneely\Core;
 
@@ -12,8 +13,11 @@ class CoreObject
     /** @var mixed $object */
     protected $object;
 
-    /** @var callable|false */
+    /** @var callable|false $retriever */
     protected $retriever = false;
+
+    /** @var callable|false $boundObject */
+    protected $boundObject = false;
 
     /**
      * CoreObject constructor.
@@ -22,7 +26,7 @@ class CoreObject
      */
     public function __construct($object)
     {
-        $this->object = $object;
+        $this->setObject($object);
     }
 
     /**
@@ -30,14 +34,14 @@ class CoreObject
      *
      * @return CoreObject
      */
-    public function setRetriever(callable $retriever)
+    public function setRetriever(callable $retriever): self
     {
         $this->retriever = $retriever;
 
         return $this;
     }
 
-    public function hasRetriever()
+    public function hasRetriever(): bool
     {
         return (bool) $this->retriever;
     }
@@ -49,15 +53,18 @@ class CoreObject
      */
     public function getObject($useRetriever = true)
     {
-        $retriever = $this->retriever;
+        if (!$this->boundObject && $this->hasRetriever()) {
+            $retriever = $this->retriever;
+            $this->boundObject =  $retriever($this->object);
+        }
 
-        return ($retriever && $useRetriever) ? $retriever($this->object) : $this->object;
+        return ($this->hasRetriever() && $useRetriever) ? $this->boundObject : $this->object;
     }
 
     /**
      * @return string
      */
-    public function getClass()
+    public function getClass(): string
     {
         return get_class($this->object);
     }
@@ -67,7 +74,7 @@ class CoreObject
      *
      * @return bool
      */
-    public function isInstanceOf($instance)
+    public function isInstanceOf($instance): bool
     {
         return $this->object instanceof $instance;
     }
@@ -77,13 +84,27 @@ class CoreObject
      *
      * @return bool
      */
-    public function hasMethod($method)
+    public function hasMethod($method): bool
     {
         return method_exists($this->object, $method);
     }
 
-    public function isArray()
+    public function isArray(): bool
     {
         return is_array($this->object);
     }
+
+    /**
+     * @param mixed $object
+     * @return CoreObject
+     */
+    public function setObject($object): self
+    {
+        $this->object = $object;
+        $this->boundObject = false;
+
+        return $this;
+    }
+
+
 }

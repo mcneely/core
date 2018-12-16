@@ -13,13 +13,13 @@ class IteratorTraitTest extends TestCase
 
     public function setUp()
     {
-        $this->setCoreObject_CoreTrait(new \ArrayIterator([1, 2]));
+        $this->CoreTrait_setCoreObject(new \ArrayIterator(['A' => 1, 'B' => 2]));
     }
 
     public function testKey()
     {
         $this->next();
-        $this->assertEquals(1, $this->key());
+        $this->assertEquals('B', $this->key());
     }
 
     public function testCurrent()
@@ -30,9 +30,11 @@ class IteratorTraitTest extends TestCase
     public function testValidRewind()
     {
         $this->next();
+        $this->assertEquals('B', $this->key());
         $this->next();
         $this->assertFalse($this->valid());
         $this->rewind();
         $this->assertTrue($this->valid());
+        $this->assertEquals('A', $this->key());
     }
 }

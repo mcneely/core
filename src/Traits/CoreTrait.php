@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 
 namespace Mcneely\Core\Traits;
 
@@ -18,9 +19,9 @@ trait CoreTrait
     /**
      * @return CoreObject
      */
-    protected function getCoreObject_CoreTrait()
+    protected function CoreTrait_getCoreObject(): CoreObject
     {
-        $this->fireEvents_CoreTrait($this, __CLASS__, __METHOD__, __TRAIT__);
+        $this->CoreTrait_fireEvents($this, __CLASS__, __METHOD__, __TRAIT__);
 
         return $this->CoreTrait_CoreObject;
     }
@@ -28,34 +29,34 @@ trait CoreTrait
     /**
      * @param mixed $object
      *
-     * @return $this
+     * @return self
      */
-    protected function setCoreObject_CoreTrait($object = null)
+    protected function CoreTrait_setCoreObject($object = null): self
     {
         $this->CoreTrait_hasSetUp   = false;
         $this->CoreTrait_events     = [];
         $this->CoreTrait_CoreObject = new CoreObject($object);
-        $this->fireEvents_CoreTrait($this, __CLASS__, __METHOD__, __TRAIT__);
+        $this->CoreTrait_fireEvents($this, __CLASS__, __METHOD__, __TRAIT__);
 
         return $this;
     }
 
     /**
-     * @param object $eventClassObject
+     * @param object $eventClassObject -- object as function type not introduced until 7.2
      * @param string $eventImmediateClass
      * @param string $eventMethod
      * @param string $eventTrait
      *
-     * @return $this
+     * @return self
      */
-    protected function fireEvents_CoreTrait(
+    protected function CoreTrait_fireEvents(
         $eventClassObject,
-        $eventImmediateClass = '',
-        $eventMethod = '',
-        $eventTrait = ''
-    ) {
+        ?string $eventImmediateClass = '',
+        ?string $eventMethod = '',
+        ?string $eventTrait = ''
+    ): self {
         if (!$this->CoreTrait_hasSetUp) {
-            $this->fireStartup_CoreTrait($eventClassObject, $eventImmediateClass);
+            $this->CoreTrait_fireStartup($eventClassObject, $eventImmediateClass);
         }
 
         $eventMethodArray = !empty($eventMethod) ? explode('::', $eventMethod) : [];
@@ -96,10 +97,11 @@ trait CoreTrait
      * @param object $eventClassObject
      * @param string $eventImmediateClass
      */
-    private function fireStartup_CoreTrait($eventClassObject, $eventImmediateClass)
+    private function CoreTrait_fireStartup($eventClassObject, $eventImmediateClass): void
     {
         $this->CoreTrait_hasSetUp = true;
         $traits                   = array_merge(class_uses($eventImmediateClass), class_uses($eventClassObject));
+
         foreach ($traits as $key => $trait) {
             $traits[$key] = basename(str_replace('\\', '/', $trait));
         }
@@ -113,7 +115,7 @@ trait CoreTrait
         }
     }
 
-    protected function registerEvent_CoreTrait($onFunction, $triggerMethod, array $exclude = [])
+    protected function CoreTrait_registerEvent($onFunction, $triggerMethod, array $exclude = []): self
     {
         $this->CoreTrait_events[$onFunction][] = [
             'method'  => $triggerMethod,

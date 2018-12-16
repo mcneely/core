@@ -13,10 +13,12 @@ class GeneratorTraitTest extends TestCase
 
     public function testGenerator()
     {
-        $this->setCoreObject_CoreTrait([1, 2]);
-        $this->assertInstanceOf('Generator', $this->getCoreObject_CoreTrait()->getObject());
-        foreach ($this->getCoreObject_CoreTrait()->getObject() as $value) {
-        }
-        $this->assertEquals($value, 2);
+        $this->CoreTrait_setCoreObject([1, 2]);
+        $this->assertInstanceOf(\Generator::class, $this->CoreTrait_getCoreObject()->getObject());
+        $value = $this->CoreTrait_getCoreObject()->getObject()->current();
+        $this->assertEquals(1, $value);
+        $this->CoreTrait_getCoreObject()->getObject()->next();
+        $value = $this->CoreTrait_getCoreObject()->getObject()->current();
+        $this->assertEquals(2, $value);
     }
 }

@@ -13,7 +13,7 @@ class CountableTestClass implements \Countable
 
     public function __construct($object)
     {
-        $this->setCoreObject_CoreTrait($object);
+        $this->CoreTrait_setCoreObject($object);
     }
 }
 

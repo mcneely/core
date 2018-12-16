@@ -1,72 +1,76 @@
 <?php
+declare(strict_types = 1);
 
 namespace Mcneely\Core\Traits;
 
 use ArrayIterator;
+use Mcneely\Core\CoreObject;
 
 /**
  * Trait IteratorTrait.
  *
  * @package Mcneely\Core\Traits
  *
- * @method \Mcneely\Core\CoreObject getCoreObject_CoreTrait()
- * @method mixed fireEvents_CoreTrait($eventClassObject, $eventImmediateClass, $eventMethod, $event)
  * @method mixed setCoreObject_CoreTrait($object = null)
+ * @method CoreObject CoreTrait_getCoreObject()
+ * @method mixed fireEvents_CoreTrait($eventClassObject, $eventImmediateClass, $eventMethod, $eventTrait)
  */
 trait IteratorTrait
 {
-    public function key()
+    public function key(): string
     {
-        $this->fireEvents_CoreTrait($this, __CLASS__, __METHOD__, __TRAIT__);
+        $this->CoreTrait_fireEvents($this, __CLASS__, __METHOD__, __TRAIT__);
 
-        return $this->getCoreObject_CoreTrait()
+        return $this->CoreTrait_getCoreObject()
                     ->getObject()
                     ->key();
     }
 
     public function current()
     {
-        $this->fireEvents_CoreTrait($this, __CLASS__, __METHOD__, __TRAIT__);
+        $this->CoreTrait_fireEvents($this, __CLASS__, __METHOD__, __TRAIT__);
 
-        return $this->getCoreObject_CoreTrait()
+        return $this->CoreTrait_getCoreObject()
                     ->getObject()
                     ->current();
     }
 
-    public function next()
+    public function next(): self
     {
-        $this->fireEvents_CoreTrait($this, __CLASS__, __METHOD__, __TRAIT__);
+        $this->CoreTrait_fireEvents($this, __CLASS__, __METHOD__, __TRAIT__);
 
-        $this->getCoreObject_CoreTrait()
+        $this->CoreTrait_getCoreObject()
              ->getObject()
              ->next();
 
         return $this;
     }
 
-    public function valid()
+    public function valid(): bool
     {
-        $this->fireEvents_CoreTrait($this, __CLASS__, __METHOD__, __TRAIT__);
+        $this->CoreTrait_fireEvents($this, __CLASS__, __METHOD__, __TRAIT__);
 
-        return $this->getCoreObject_CoreTrait()
+        return $this->CoreTrait_getCoreObject()
                     ->getObject()
                     ->valid();
     }
 
-    public function rewind()
+    public function rewind(): self
     {
-        $this->fireEvents_CoreTrait($this, __CLASS__, __METHOD__, __TRAIT__);
+        $this->CoreTrait_fireEvents($this, __CLASS__, __METHOD__, __TRAIT__);
 
-        $object = $this->getCoreObject_CoreTrait()
+        $object = $this->CoreTrait_getCoreObject()
                        ->getObject();
 
-        if ($this->getCoreObject_CoreTrait()->hasMethod('rewind') && !$object instanceof \Generator) {
+        if ($this->CoreTrait_getCoreObject()->hasMethod('rewind') && !$object instanceof \Generator) {
             $object->rewind();
+
+            return $this;
         }
 
         $object = ($object instanceof \Iterator) ? iterator_to_array($object) : (array) $object;
         $object = new ArrayIterator($object);
-        $this->setCoreObject_CoreTrait($object);
+        $this->CoreTrait_setCoreObject($object);
 
         return $this;
     }
