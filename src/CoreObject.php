@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 
 namespace Mcneely\Core;
 
@@ -54,7 +55,7 @@ class CoreObject
     public function getObject($useRetriever = true)
     {
         if (!$this->boundObject && $this->hasRetriever()) {
-            $retriever = $this->retriever;
+            $retriever         = $this->retriever;
             $this->boundObject =  $retriever($this->object);
         }
 
@@ -96,15 +97,14 @@ class CoreObject
 
     /**
      * @param mixed $object
+     *
      * @return CoreObject
      */
     public function setObject($object): self
     {
-        $this->object = $object;
+        $this->object      = $object;
         $this->boundObject = false;
 
         return $this;
     }
-
-
 }

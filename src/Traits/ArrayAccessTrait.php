@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Mcneely\Core\Traits;
@@ -54,14 +55,13 @@ trait ArrayAccessTrait
         return $this;
     }
 
-
     protected function ArrayAccessTrait_unwrap(?bool $update = false): ArrayIterator
     {
         $coreObject = $this->CoreTrait_getCoreObject();
         $object     = $coreObject->getObject(true);
         $object     = ($object instanceof \IteratorAggregate) ? $object->getIterator() : $object;
         $object     = ($object instanceof \IteratorIterator) ? $object->getInnerIterator() : $object;
-        $object     = ($object instanceof \Iterator) ? iterator_to_array($object) : (array)$object;
+        $object     = ($object instanceof \Iterator) ? iterator_to_array($object) : (array) $object;
         $object     = new ArrayIterator($object);
 
         if ($update) {
