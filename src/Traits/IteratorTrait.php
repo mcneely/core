@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 
 namespace Mcneely\Core\Traits;
 
@@ -23,7 +24,8 @@ trait IteratorTrait
 
         return $this->CoreTrait_getCoreObject()
                     ->getObject()
-                    ->key();
+                    ->key()
+        ;
     }
 
     public function current()
@@ -32,7 +34,8 @@ trait IteratorTrait
 
         return $this->CoreTrait_getCoreObject()
                     ->getObject()
-                    ->current();
+                    ->current()
+        ;
     }
 
     public function next(): self
@@ -41,7 +44,8 @@ trait IteratorTrait
 
         $this->CoreTrait_getCoreObject()
              ->getObject()
-             ->next();
+             ->next()
+        ;
 
         return $this;
     }
@@ -52,7 +56,8 @@ trait IteratorTrait
 
         return $this->CoreTrait_getCoreObject()
                     ->getObject()
-                    ->valid();
+                    ->valid()
+        ;
     }
 
     public function rewind(): self
@@ -60,7 +65,8 @@ trait IteratorTrait
         $this->CoreTrait_fireEvents($this, __CLASS__, __METHOD__, __TRAIT__);
 
         $object = $this->CoreTrait_getCoreObject()
-                       ->getObject();
+                       ->getObject()
+        ;
 
         if ($this->CoreTrait_getCoreObject()->hasMethod('rewind') && !$object instanceof \Generator) {
             $object->rewind();

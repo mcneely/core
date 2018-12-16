@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 
 namespace Mcneely\Core\Traits;
 
@@ -39,6 +40,6 @@ trait JsonSerializableTrait
             return iterator_to_array($object);
         }
 
-        return (array)$object;
+        return (array) $object;
     }
 }
