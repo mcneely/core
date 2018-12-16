@@ -17,7 +17,7 @@ use Mcneely\Core\CoreObject;
  */
 trait ArrayAccessTrait
 {
-    public function offsetExists(string $offset): bool
+    public function offsetExists($offset)
     {
         $this->CoreTrait_fireEvents($this, __CLASS__, __METHOD__, __TRAIT__);
 
@@ -26,7 +26,7 @@ trait ArrayAccessTrait
         return $object->offsetExists($offset);
     }
 
-    public function offsetGet(string $offset)
+    public function offsetGet($offset)
     {
         $this->CoreTrait_fireEvents($this, __CLASS__, __METHOD__, __TRAIT__);
 
@@ -35,7 +35,7 @@ trait ArrayAccessTrait
         return $object->offsetGet($offset);
     }
 
-    public function offsetSet(string $offset, $value): self
+    public function offsetSet($offset, $value)
     {
         $this->CoreTrait_fireEvents($this, __CLASS__, __METHOD__, __TRAIT__);
 
@@ -45,7 +45,7 @@ trait ArrayAccessTrait
         return $this;
     }
 
-    public function offsetUnset(string $offset): self
+    public function offsetUnset($offset)
     {
         $this->CoreTrait_fireEvents($this, __CLASS__, __METHOD__, __TRAIT__);
         $object = $this->ArrayAccessTrait_unwrap(true);
