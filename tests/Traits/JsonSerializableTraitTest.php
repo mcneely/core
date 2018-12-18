@@ -16,7 +16,8 @@ class FunctionTestClass
         $this->object = $object;
     }
 
-    public function toArray() {
+    public function toArray()
+    {
         return $this->object;
     }
 }

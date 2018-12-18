@@ -17,7 +17,6 @@ class CountTestClass
     }
 }
 
-
 class CountableTestClass implements \Countable
 {
     use CoreTrait;
@@ -48,7 +47,7 @@ class CountableTraitTest extends TestCase
         $this->assertEquals(3, count($countable));
         $countable = new CountTestClass(new \ArrayObject($array));
         $this->assertEquals(3, $countable->count());
-        $countable = new CountableTestClass((object)$array);
+        $countable = new CountableTestClass((object) $array);
         $this->assertEquals(1, count($countable));
         $countable = new CountableTestClass(null);
         $this->assertEquals(0, count($countable));
