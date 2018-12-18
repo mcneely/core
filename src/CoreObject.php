@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Mcneely\Core;
 
-use \ArrayIterator;
+use ArrayIterator;
 
 /**
  * Class CoreObject.
@@ -46,7 +46,7 @@ class CoreObject
 
     public function hasRetriever(): bool
     {
-        return (bool)$this->retriever;
+        return (bool) $this->retriever;
     }
 
     /**
@@ -63,11 +63,11 @@ class CoreObject
 
     /**
      * @param bool|null $rebind
+     *
      * @return CoreObject
      */
     public function bindRetriever(?bool $rebind = false): self
     {
-
         if ($this->hasRetriever() && ($rebind || !$this->boundObject)) {
             $retriever         = $this->retriever;
             $this->boundObject = $retriever($this->object);
@@ -109,5 +109,4 @@ class CoreObject
 
         return $this;
     }
-
 }
