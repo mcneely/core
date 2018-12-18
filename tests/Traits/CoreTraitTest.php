@@ -24,23 +24,6 @@ class CoreTraitTest extends TestCase
         });
     }
 
-    public function testIsInstanceOf()
-    {
-        $this->assertTrue($this->CoreTrait_getCoreObject()->isInstanceOf(get_class($this->object)));
-        $this->assertFalse($this->CoreTrait_getCoreObject()->isInstanceOf('string'));
-    }
-
-    public function testHasMethod()
-    {
-        $this->assertTrue($this->CoreTrait_getCoreObject()->hasMethod('__construct'));
-        $this->assertFalse($this->CoreTrait_getCoreObject()->hasMethod('NoThisIsNotARealMethod'));
-    }
-
-    public function testGetClass()
-    {
-        $this->assertEquals(get_class($this->object), $this->CoreTrait_getCoreObject()->getClass());
-    }
-
     public function testBeforeMethod()
     {
         $this->CoreTrait_fireEvents($this, __CLASS__, __METHOD__, __TRAIT__);

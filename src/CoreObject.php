@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Mcneely\Core;
 
+use \ArrayIterator;
+
 /**
  * Class CoreObject.
  *
@@ -44,7 +46,7 @@ class CoreObject
 
     public function hasRetriever(): bool
     {
-        return (bool) $this->retriever;
+        return (bool)$this->retriever;
     }
 
     /**
@@ -54,45 +56,24 @@ class CoreObject
      */
     public function getObject($useRetriever = true)
     {
-        if (!$this->boundObject && $this->hasRetriever()) {
-            $retriever         = $this->retriever;
-            $this->boundObject =  $retriever($this->object);
-        }
+        $this->bindRetriever();
 
         return ($this->hasRetriever() && $useRetriever) ? $this->boundObject : $this->object;
     }
 
     /**
-     * @return string
+     * @param bool|null $rebind
+     * @return CoreObject
      */
-    public function getClass(): string
+    public function bindRetriever(?bool $rebind = false): self
     {
-        return get_class($this->object);
-    }
 
-    /**
-     * @param string $instance
-     *
-     * @return bool
-     */
-    public function isInstanceOf($instance): bool
-    {
-        return $this->object instanceof $instance;
-    }
+        if ($this->hasRetriever() && ($rebind || !$this->boundObject)) {
+            $retriever         = $this->retriever;
+            $this->boundObject = $retriever($this->object);
+        }
 
-    /**
-     * @param string $method
-     *
-     * @return bool
-     */
-    public function hasMethod($method): bool
-    {
-        return method_exists($this->object, $method);
-    }
-
-    public function isArray(): bool
-    {
-        return is_array($this->object);
+        return $this;
     }
 
     /**
@@ -107,4 +88,26 @@ class CoreObject
 
         return $this;
     }
+
+    public function unWrap(?string $instance = null, ?string $exclude = null): self
+    {
+        $object = $this->getObject();
+
+        $object = ($object instanceof \IteratorAggregate) ? $object->getIterator() : $object;
+        $object = ($object instanceof \IteratorIterator) ? $object->getInnerIterator() : $object;
+
+        $exclude = ($exclude && $object instanceof $exclude);
+        if ($instance && $object instanceof $instance && !$exclude) {
+            return $this;
+        }
+
+        $object = ($object instanceof \Traversable) ? iterator_to_array($object) : $object;
+        $object = (method_exists($object, 'toArray')) ? $object->toArray() : $object;
+        $object = (is_array($object)) ? new ArrayIterator($object) : $object;
+        $this->setObject($object);
+        $this->retriever = false;
+
+        return $this;
+    }
+
 }

@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Mcneely\Core\Traits;
 
-use ArrayIterator;
+use Iterator;
+use Generator;
 use Mcneely\Core\CoreObject;
 
 /**
@@ -22,29 +23,29 @@ trait IteratorTrait
     {
         $this->CoreTrait_fireEvents($this, __CLASS__, __METHOD__, __TRAIT__);
 
-        return $this->CoreTrait_getCoreObject()
-                    ->getObject()
-                    ->key()
-        ;
+        return $this
+            ->IteratorTrait_unwrap()
+            ->key()
+            ;
     }
 
     public function current()
     {
         $this->CoreTrait_fireEvents($this, __CLASS__, __METHOD__, __TRAIT__);
 
-        return $this->CoreTrait_getCoreObject()
-                    ->getObject()
-                    ->current()
-        ;
+        return $this
+            ->IteratorTrait_unwrap()
+            ->current()
+            ;
     }
 
     public function next(): self
     {
         $this->CoreTrait_fireEvents($this, __CLASS__, __METHOD__, __TRAIT__);
 
-        $this->CoreTrait_getCoreObject()
-             ->getObject()
-             ->next()
+        $this
+            ->IteratorTrait_unwrap()
+            ->next()
         ;
 
         return $this;
@@ -54,30 +55,30 @@ trait IteratorTrait
     {
         $this->CoreTrait_fireEvents($this, __CLASS__, __METHOD__, __TRAIT__);
 
-        return $this->CoreTrait_getCoreObject()
-                    ->getObject()
-                    ->valid()
-        ;
+        return $this
+            ->IteratorTrait_unwrap()
+            ->valid()
+            ;
     }
 
     public function rewind(): self
     {
         $this->CoreTrait_fireEvents($this, __CLASS__, __METHOD__, __TRAIT__);
 
-        $object = $this->CoreTrait_getCoreObject()
-                       ->getObject()
+        $this
+            ->IteratorTrait_unwrap()
+            ->rewind()
         ;
 
-        if ($this->CoreTrait_getCoreObject()->hasMethod('rewind') && !$object instanceof \Generator) {
-            $object->rewind();
-
-            return $this;
-        }
-
-        $object = ($object instanceof \Iterator) ? iterator_to_array($object) : (array) $object;
-        $object = new ArrayIterator($object);
-        $this->CoreTrait_setCoreObject($object);
-
         return $this;
+    }
+
+    protected function IteratorTrait_unwrap(): Iterator
+    {
+        return $this
+            ->CoreTrait_getCoreObject()
+            ->unWrap(Iterator::class, Generator::class)
+            ->getObject()
+            ;
     }
 }

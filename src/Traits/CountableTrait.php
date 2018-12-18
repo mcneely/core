@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Mcneely\Core\Traits;
 
+use Countable;
 use Mcneely\Core\CoreObject;
 
 /**
@@ -25,20 +26,14 @@ trait CountableTrait
 
         $object = $this
             ->CoreTrait_getCoreObject()
+            ->unWrap()
             ->getObject()
         ;
 
-        if (
-            $this->CoreTrait_getCoreObject()->isInstanceOf("\Traversable") &&
-            (!$this->CoreTrait_getCoreObject()->hasMethod('count') || $object instanceof \Generator)
-        ) {
-            return iterator_count($object);
-        }
-
-        if ($this->CoreTrait_getCoreObject()->hasMethod('count')) {
+        if ($object instanceof Countable || method_exists($object, 'count')) {
             return $object->count();
         }
 
-        return count($object);
+        return is_null($object) ? 0 : 1;
     }
 }

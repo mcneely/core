@@ -6,6 +6,18 @@ use Mcneely\Core\Traits\CoreTrait;
 use Mcneely\Core\Traits\CountableTrait;
 use PHPUnit\Framework\TestCase;
 
+class CountTestClass
+{
+    use CoreTrait;
+    use CountableTrait;
+
+    public function __construct($object)
+    {
+        $this->CoreTrait_setCoreObject($object);
+    }
+}
+
+
 class CountableTestClass implements \Countable
 {
     use CoreTrait;
@@ -33,5 +45,12 @@ class CountableTraitTest extends TestCase
         };
         $countable = new CountableTestClass($generator($array));
         $this->assertEquals(3, count($countable));
+        $this->assertEquals(3, count($countable));
+        $countable = new CountTestClass(new \ArrayObject($array));
+        $this->assertEquals(3, $countable->count());
+        $countable = new CountableTestClass((object)$array);
+        $this->assertEquals(1, count($countable));
+        $countable = new CountableTestClass(null);
+        $this->assertEquals(0, count($countable));
     }
 }

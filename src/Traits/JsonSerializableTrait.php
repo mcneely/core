@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Mcneely\Core\Traits;
 
+use ArrayIterator;
 use Mcneely\Core\CoreObject;
 
 /**
@@ -25,21 +26,14 @@ trait JsonSerializableTrait
 
         $object = $this
             ->CoreTrait_getCoreObject()
+            ->unWrap(ArrayIterator::class)
             ->getObject()
         ;
 
-        if ($this->CoreTrait_getCoreObject()->isArray()) {
-            return $object;
+        if ($object instanceof ArrayIterator) {
+            return $object->getArrayCopy();
         }
 
-        if ($this->CoreTrait_getCoreObject()->hasMethod('toArray')) {
-            return $object->toArray();
-        }
-
-        if ($this->CoreTrait_getCoreObject()->isInstanceOf("\Traversable")) {
-            return iterator_to_array($object);
-        }
-
-        return (array) $object;
+        return (array)$object;
     }
 }
