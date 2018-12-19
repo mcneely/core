@@ -80,11 +80,9 @@ class CoreObject
             'skipped' => $skip,
             'object'  => $object,
         ];
-
     }
 
     /**
-     *
      * @return mixed
      */
     protected function getObject()
@@ -124,6 +122,6 @@ class CoreObject
 
     public function hasRetriever(): bool
     {
-        return (bool)$this->retriever;
+        return (bool) $this->retriever;
     }
 }

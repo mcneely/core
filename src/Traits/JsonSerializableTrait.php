@@ -33,6 +33,6 @@ trait JsonSerializableTrait
             return $object->getArrayCopy();
         }
 
-        return (array)$object;
+        return (array) $object;
     }
 }
