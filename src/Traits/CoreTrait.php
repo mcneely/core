@@ -28,7 +28,7 @@ trait CoreTrait
     }
 
     /**
-     * @param object $eventClassObject -- object as function type not introduced until 7.2
+     * @param object $eventClassObject    -- object as function type not introduced until 7.2
      * @param string $eventImmediateClass
      * @param string $eventMethod
      * @param string $eventTrait
