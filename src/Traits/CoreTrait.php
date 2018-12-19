@@ -27,6 +27,8 @@ trait CoreTrait
         return $this->CoreTrait_CoreObject;
     }
 
+    /** @noinspection PhpUnusedParameterInspection */
+
     /**
      * @param object $eventClassObject -- object as function type not introduced until 7.2
      * @param string $eventImmediateClass
