@@ -27,13 +27,12 @@ trait JsonSerializableTrait
         $object = $this
             ->CoreTrait_getCoreObject()
             ->unWrap(ArrayIterator::class)
-            ->getObject()
         ;
 
         if ($object instanceof ArrayIterator) {
             return $object->getArrayCopy();
         }
 
-        return (array) $object;
+        return (array)$object;
     }
 }

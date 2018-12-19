@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Mcneely\Core\Traits;
 
-use Iterator;
 use Generator;
+use Iterator;
 use Mcneely\Core\CoreObject;
 
 /**
@@ -26,6 +26,14 @@ trait IteratorTrait
         return $this
             ->IteratorTrait_unwrap()
             ->key()
+            ;
+    }
+
+    protected function IteratorTrait_unwrap(): Iterator
+    {
+        return $this
+            ->CoreTrait_getCoreObject()
+            ->unWrap(Iterator::class, Generator::class)
             ;
     }
 
@@ -71,14 +79,5 @@ trait IteratorTrait
         ;
 
         return $this;
-    }
-
-    protected function IteratorTrait_unwrap(): Iterator
-    {
-        return $this
-            ->CoreTrait_getCoreObject()
-            ->unWrap(Iterator::class, Generator::class)
-            ->getObject()
-            ;
     }
 }

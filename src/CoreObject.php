@@ -44,21 +44,67 @@ class CoreObject
         return $this;
     }
 
-    public function hasRetriever(): bool
+    public function unWrap(?string $instance = null, ?string $exclude = null)
     {
-        return (bool) $this->retriever;
+        $unWrap = $this->internalUnWrap($instance, $exclude);
+        $object = $unWrap['object'];
+
+        if ($unWrap['skipped']) {
+            return $object;
+        }
+
+        $this->setObject($object);
+        $this->retriever = false;
+
+        return $object;
+    }
+
+    protected function internalUnWrap(?string $instance = null, ?string $exclude = null): array
+    {
+        $object = $this->getObject();
+
+        $object = ($object instanceof \IteratorAggregate) ? $object->getIterator() : $object;
+        $object = ($object instanceof \IteratorIterator) ? $object->getInnerIterator() : $object;
+
+        $skip    = false;
+        $exclude = ($exclude && $object instanceof $exclude);
+        if ($instance && $object instanceof $instance && !$exclude) {
+            $skip = true;
+        } else {
+            $object = ($object instanceof \Traversable) ? iterator_to_array($object) : $object;
+            $object = (method_exists($object, 'toArray')) ? $object->toArray() : $object;
+            $object = (is_array($object)) ? new ArrayIterator($object) : $object;
+        }
+
+        return [
+            'skipped' => $skip,
+            'object'  => $object,
+        ];
+
     }
 
     /**
-     * @param bool $useRetriever
      *
      * @return mixed
      */
-    public function getObject($useRetriever = true)
+    protected function getObject()
     {
         $this->bindRetriever();
 
-        return ($this->hasRetriever() && $useRetriever) ? $this->boundObject : $this->object;
+        return ($this->hasRetriever()) ? $this->boundObject : $this->object;
+    }
+
+    /**
+     * @param mixed $object
+     *
+     * @return CoreObject
+     */
+    public function setObject($object): self
+    {
+        $this->object      = $object;
+        $this->boundObject = false;
+
+        return $this;
     }
 
     /**
@@ -76,37 +122,8 @@ class CoreObject
         return $this;
     }
 
-    /**
-     * @param mixed $object
-     *
-     * @return CoreObject
-     */
-    public function setObject($object): self
+    public function hasRetriever(): bool
     {
-        $this->object      = $object;
-        $this->boundObject = false;
-
-        return $this;
-    }
-
-    public function unWrap(?string $instance = null, ?string $exclude = null): self
-    {
-        $object = $this->getObject();
-
-        $object = ($object instanceof \IteratorAggregate) ? $object->getIterator() : $object;
-        $object = ($object instanceof \IteratorIterator) ? $object->getInnerIterator() : $object;
-
-        $exclude = ($exclude && $object instanceof $exclude);
-        if ($instance && $object instanceof $instance && !$exclude) {
-            return $this;
-        }
-
-        $object = ($object instanceof \Traversable) ? iterator_to_array($object) : $object;
-        $object = (method_exists($object, 'toArray')) ? $object->toArray() : $object;
-        $object = (is_array($object)) ? new ArrayIterator($object) : $object;
-        $this->setObject($object);
-        $this->retriever = false;
-
-        return $this;
+        return (bool)$this->retriever;
     }
 }

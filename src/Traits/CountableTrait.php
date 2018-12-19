@@ -27,7 +27,6 @@ trait CountableTrait
         $object = $this
             ->CoreTrait_getCoreObject()
             ->unWrap()
-            ->getObject()
         ;
 
         if ($object instanceof Countable || method_exists($object, 'count')) {

@@ -28,6 +28,14 @@ trait ArrayAccessTrait
             ;
     }
 
+    protected function ArrayAccessTrait_unwrap(): ArrayAccess
+    {
+        return $this
+            ->CoreTrait_getCoreObject()
+            ->unWrap(ArrayAccess::class)
+            ;
+    }
+
     public function offsetGet($offset)
     {
         $this->CoreTrait_fireEvents($this, __CLASS__, __METHOD__, __TRAIT__);
@@ -59,14 +67,5 @@ trait ArrayAccessTrait
         ;
 
         return $this;
-    }
-
-    protected function ArrayAccessTrait_unwrap(): ArrayAccess
-    {
-        return $this
-            ->CoreTrait_getCoreObject()
-            ->unWrap(ArrayAccess::class)
-            ->getObject()
-        ;
     }
 }

@@ -23,6 +23,7 @@ trait GeneratorTrait
                     yield $key => $value;
                 }
             }
-        );
+        )
+        ;
     }
 }

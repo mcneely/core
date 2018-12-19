@@ -28,22 +28,7 @@ trait CoreTrait
     }
 
     /**
-     * @param mixed $object
-     *
-     * @return self
-     */
-    protected function CoreTrait_setCoreObject($object = null): self
-    {
-        $this->CoreTrait_hasSetUp   = false;
-        $this->CoreTrait_events     = [];
-        $this->CoreTrait_CoreObject = new CoreObject($object);
-        $this->CoreTrait_fireEvents($this, __CLASS__, __METHOD__, __TRAIT__);
-
-        return $this;
-    }
-
-    /**
-     * @param object $eventClassObject    -- object as function type not introduced until 7.2
+     * @param object $eventClassObject -- object as function type not introduced until 7.2
      * @param string $eventImmediateClass
      * @param string $eventMethod
      * @param string $eventTrait
@@ -114,6 +99,21 @@ trait CoreTrait
                 $eventClassObject->$method();
             }
         }
+    }
+
+    /**
+     * @param mixed $object
+     *
+     * @return self
+     */
+    protected function CoreTrait_setCoreObject($object = null): self
+    {
+        $this->CoreTrait_hasSetUp   = false;
+        $this->CoreTrait_events     = [];
+        $this->CoreTrait_CoreObject = new CoreObject($object);
+        $this->CoreTrait_fireEvents($this, __CLASS__, __METHOD__, __TRAIT__);
+
+        return $this;
     }
 
     protected function CoreTrait_registerEvent($onFunction, $triggerMethod, array $exclude = []): self
