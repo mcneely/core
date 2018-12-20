@@ -46,6 +46,11 @@ class CoreObject
         return $this;
     }
 
+    /**
+     * @param string|null $instance
+     * @param string|null $exclude
+     * @return \Traversable|mixed
+     */
     public function unWrap(?string $instance = null, ?string $exclude = null)
     {
         $object = $this->getUnwrapped($instance, $exclude);
@@ -60,6 +65,11 @@ class CoreObject
         return $object;
     }
 
+    /**
+     * @param string|null $instance
+     * @param string|null $exclude
+     * @return \Traversable|mixed
+     */
     public function getUnwrapped(?string $instance = null, ?string $exclude = null)
     {
         $object = $this->getObject();
@@ -120,6 +130,9 @@ class CoreObject
         return $this;
     }
 
+    /**
+     * @return bool
+     */
     public function hasRetriever(): bool
     {
         return (bool) $this->retriever;
