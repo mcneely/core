@@ -80,7 +80,6 @@ class CoreObject
         $object = (is_array($object)) ? new ArrayIterator($object) : $object;
 
         return $object;
-
     }
 
     /**
@@ -123,6 +122,6 @@ class CoreObject
 
     public function hasRetriever(): bool
     {
-        return (bool)$this->retriever;
+        return (bool) $this->retriever;
     }
 }

@@ -44,6 +44,7 @@ class CoreTraitTest extends TestCase
     public function testRequire()
     {
         $pass = true;
+
         try {
             $this->CoreTrait_require([CoreTrait::class], CoreTrait::class);
         } catch (\Exception $e) {
@@ -53,6 +54,6 @@ class CoreTraitTest extends TestCase
 
         $this->expectException(\Exception::class);
 
-        $this->CoreTrait_require([CoreTrait::class,\ArrayIterator::class], CoreTrait::class);
+        $this->CoreTrait_require([CoreTrait::class, \ArrayIterator::class], CoreTrait::class);
     }
 }
