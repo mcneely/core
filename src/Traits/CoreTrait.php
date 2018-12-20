@@ -29,7 +29,7 @@ trait CoreTrait
     }
 
     /**
-     * @param object $eventClassObject -- object as function type not introduced until 7.2
+     * @param object $eventClassObject    -- object as function type not introduced until 7.2
      * @param string $eventImmediateClass
      * @param string $eventMethod
      * @param string $eventTrait
@@ -37,7 +37,7 @@ trait CoreTrait
      * @return self
      */
     protected function CoreTrait_fireEvents(
-        /** @noinspection PhpUnusedParameterInspection */
+        /* @noinspection PhpUnusedParameterInspection */
         $eventClassObject,
         ?string $eventImmediateClass = '',
         ?string $eventMethod = '',
@@ -137,6 +137,7 @@ trait CoreTrait
     /**
      * @param array $traits
      * @param       $currentTrait
+     *
      * @throws \Exception
      */
     protected function CoreTrait_require(array $traits, $currentTrait)
