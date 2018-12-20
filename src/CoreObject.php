@@ -49,6 +49,7 @@ class CoreObject
     /**
      * @param string|null $instance
      * @param string|null $exclude
+     *
      * @return \Traversable|mixed
      */
     public function unWrap(?string $instance = null, ?string $exclude = null)
@@ -68,6 +69,7 @@ class CoreObject
     /**
      * @param string|null $instance
      * @param string|null $exclude
+     *
      * @return \Traversable|mixed
      */
     public function getUnwrapped(?string $instance = null, ?string $exclude = null)
