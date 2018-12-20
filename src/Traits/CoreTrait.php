@@ -1,4 +1,6 @@
-<?php /** @noinspection ALL */
+<?php
+
+/** @noinspection ALL */
 
 declare(strict_types=1);
 
@@ -89,7 +91,7 @@ trait CoreTrait
     {
         $this->CoreTrait_hasSetUp = true;
         $traits                   = array_merge(class_uses($eventImmediateClass), class_uses($eventClassObject));
-        $traits = $this->cleanTraits($traits);
+        $traits                   = $this->cleanTraits($traits);
 
         $methods = preg_grep('/^__setUp_/', get_class_methods(get_class($eventClassObject)));
 
@@ -100,7 +102,8 @@ trait CoreTrait
         }
     }
 
-    protected function cleanTraits(array $traits): array {
+    protected function cleanTraits(array $traits): array
+    {
         foreach ($traits as $key => $trait) {
             $traits[$key] = basename(str_replace('\\', '/', $trait));
         }
@@ -133,14 +136,14 @@ trait CoreTrait
         return $this;
     }
 
-    protected function CoreTrait_require(array $traits, $currentTrait) {
+    protected function CoreTrait_require(array $traits, $currentTrait)
+    {
         $classTraits = class_uses($this);
 
         foreach ($traits as $trait) {
-            if(!in_array($trait, $classTraits)) {
+            if (!in_array($trait, $classTraits)) {
                 throw new \Exception("{$currentTrait} requaires trait {$trait}");
             }
         }
-
     }
 }
