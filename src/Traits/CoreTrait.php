@@ -1,6 +1,5 @@
 <?php
 
-/** @noinspection ALL */
 
 declare(strict_types=1);
 
@@ -29,10 +28,8 @@ trait CoreTrait
         return $this->CoreTrait_CoreObject;
     }
 
-    /** @noinspection PhpUnusedParameterInspection */
-
     /**
-     * @param object $eventClassObject    -- object as function type not introduced until 7.2
+     * @param object $eventClassObject -- object as function type not introduced until 7.2
      * @param string $eventImmediateClass
      * @param string $eventMethod
      * @param string $eventTrait
@@ -40,6 +37,7 @@ trait CoreTrait
      * @return self
      */
     protected function CoreTrait_fireEvents(
+        /** @noinspection PhpUnusedParameterInspection */
         $eventClassObject,
         ?string $eventImmediateClass = '',
         ?string $eventMethod = '',
@@ -136,13 +134,18 @@ trait CoreTrait
         return $this;
     }
 
+    /**
+     * @param array $traits
+     * @param       $currentTrait
+     * @throws \Exception
+     */
     protected function CoreTrait_require(array $traits, $currentTrait)
     {
         $classTraits = class_uses($this);
 
         foreach ($traits as $trait) {
             if (!in_array($trait, $classTraits)) {
-                throw new \Exception("{$currentTrait} requaires trait {$trait}");
+                throw new \Exception("{$currentTrait} requires trait {$trait}");
             }
         }
     }
