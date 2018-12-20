@@ -67,7 +67,7 @@ class CoreObject
         $object = ($object instanceof \IteratorAggregate) ? $object->getIterator() : $object;
         $object = ($object instanceof \IteratorIterator) ? $object->getInnerIterator() : $object;
 
-        $exclude             = ($exclude && $object instanceof $exclude);
+        $exclude = ($exclude && $object instanceof $exclude);
 
         $this->unwrapSkipped = false;
         if ($instance && $object instanceof $instance && !$exclude) {
@@ -84,7 +84,6 @@ class CoreObject
     }
 
     /**
-     *
      * @return mixed
      */
     protected function getObject()
