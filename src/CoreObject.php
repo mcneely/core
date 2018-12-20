@@ -22,6 +22,8 @@ class CoreObject
     /** @var callable|false $boundObject */
     protected $boundObject = false;
 
+    protected $unwrapSkipped = false;
+
     /**
      * CoreObject constructor.
      *
@@ -46,10 +48,9 @@ class CoreObject
 
     public function unWrap(?string $instance = null, ?string $exclude = null)
     {
-        $unWrap = $this->internalUnWrap($instance, $exclude);
-        $object = $unWrap['object'];
+        $object = $this->getUnwrapped($instance, $exclude);
 
-        if ($unWrap['skipped']) {
+        if ($this->unwrapSkipped) {
             return $object;
         }
 
@@ -59,27 +60,26 @@ class CoreObject
         return $object;
     }
 
-    protected function internalUnWrap(?string $instance = null, ?string $exclude = null): array
+    public function getUnwrapped(?string $instance = null, ?string $exclude = null)
     {
         $object = $this->getObject();
 
         $object = ($object instanceof \IteratorAggregate) ? $object->getIterator() : $object;
         $object = ($object instanceof \IteratorIterator) ? $object->getInnerIterator() : $object;
 
-        $skip    = false;
-        $exclude = ($exclude && $object instanceof $exclude);
-        if ($instance && $object instanceof $instance && !$exclude) {
-            $skip = true;
-        } else {
-            $object = ($object instanceof \Traversable) ? iterator_to_array($object) : $object;
-            $object = (method_exists($object, 'toArray')) ? $object->toArray() : $object;
-            $object = (is_array($object)) ? new ArrayIterator($object) : $object;
-        }
+        $exclude             = ($exclude && $object instanceof $exclude);
 
-        return [
-            'skipped' => $skip,
-            'object'  => $object,
-        ];
+        $this->unwrapSkipped = false;
+        if ($instance && $object instanceof $instance && !$exclude) {
+            $this->unwrapSkipped = true;
+
+            return $object;
+        }
+        $object = ($object instanceof \Traversable) ? iterator_to_array($object) : $object;
+        $object = (method_exists($object, 'toArray')) ? $object->toArray() : $object;
+        $object = (is_array($object)) ? new ArrayIterator($object) : $object;
+
+        return $object;
 
     }
 

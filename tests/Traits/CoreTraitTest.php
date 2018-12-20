@@ -40,4 +40,19 @@ class CoreTraitTest extends TestCase
         $this->CoreTrait_fireEvents($this, __CLASS__, __METHOD__, __TRAIT__);
         $this->assertTrue($this->registeredEventFired);
     }
+
+    public function testRequire()
+    {
+        $pass = true;
+        try {
+            $this->CoreTrait_require([CoreTrait::class], CoreTrait::class);
+        } catch (\Exception $e) {
+            $pass = false;
+        }
+        $this->assertTrue($pass);
+
+        $this->expectException(\Exception::class);
+
+        $this->CoreTrait_require([CoreTrait::class,\ArrayIterator::class], CoreTrait::class);
+    }
 }
