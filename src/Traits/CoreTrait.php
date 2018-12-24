@@ -142,12 +142,22 @@ trait CoreTrait
      */
     protected function CoreTrait_require(array $traits, $currentTrait)
     {
-        $classTraits = class_uses($this);
+        $classTraits = $this->getAllTraits($this);
 
         foreach ($traits as $trait) {
             if (!in_array($trait, $classTraits)) {
                 throw new \Exception("{$currentTrait} requires trait {$trait}");
             }
         }
+    }
+
+    protected function getAllTraits($object) {
+        $objects = array_merge([$object], class_parents($object));
+        $traits = [];
+        foreach ($objects as $object) {
+            $traits = array_merge(class_uses($object), $traits);
+        }
+
+        return array_unique($traits);
     }
 }
