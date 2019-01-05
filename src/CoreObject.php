@@ -76,9 +76,6 @@ class CoreObject
     {
         $object = $this->getObject();
 
-        $object = ($object instanceof \IteratorAggregate) ? $object->getIterator() : $object;
-        $object = ($object instanceof \IteratorIterator) ? $object->getInnerIterator() : $object;
-
         $exclude = ($exclude && $object instanceof $exclude);
 
         $this->unwrapSkipped = false;
@@ -87,6 +84,9 @@ class CoreObject
 
             return $object;
         }
+
+        $object = ($object instanceof \IteratorAggregate) ? $object->getIterator() : $object;
+        $object = ($object instanceof \IteratorIterator) ? $object->getInnerIterator() : $object;
         $object = ($object instanceof \Traversable) ? iterator_to_array($object) : $object;
         $object = (method_exists($object, 'toArray')) ? $object->toArray() : $object;
         $object = (is_array($object)) ? new ArrayIterator($object) : $object;
