@@ -151,9 +151,10 @@ trait CoreTrait
         }
     }
 
-    protected function getAllTraits($object) {
+    protected function getAllTraits($object)
+    {
         $objects = array_merge([$object], class_parents($object));
-        $traits = [];
+        $traits  = [];
         foreach ($objects as $object) {
             $traits = array_merge(class_uses($object), $traits);
         }
