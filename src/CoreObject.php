@@ -90,6 +90,7 @@ class CoreObject
 
     /**
      * @param mixed $object
+     *
      * @return mixed|ArrayIterator
      */
     public function unwrapObject($object)
