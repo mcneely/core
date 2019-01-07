@@ -29,7 +29,7 @@ trait CoreTrait
     }
 
     /**
-     * @param object $eventClassObject -- object as function type not introduced until 7.2
+     * @param object $eventClassObject    -- object as function type not introduced until 7.2
      * @param string $eventImmediateClass
      * @param string $eventMethod
      * @param string $eventTrait
@@ -49,7 +49,7 @@ trait CoreTrait
 
         $eventMethodArray = !empty($eventMethod) ? explode('::', $eventMethod) : [];
         $eventMethodShort = array_pop($eventMethodArray);
-        $triggers         = $this->CoreTrait_buildTriggers($eventClassObject, $eventMethodShort);/**/
+        $triggers         = $this->CoreTrait_buildTriggers($eventClassObject, $eventMethodShort); /**/
 
         return $this->CoreTrait_processTriggers($triggers, $eventClassObject, $eventMethodShort);
     }
@@ -85,6 +85,7 @@ trait CoreTrait
     /**
      * @param object $eventClassObject
      * @param string $eventMethodShort
+     *
      * @return array
      */
     protected function CoreTrait_buildTriggers($eventClassObject, ?string $eventMethodShort): array
@@ -112,6 +113,7 @@ trait CoreTrait
      * @param array       $triggers
      * @param object      $eventClassObject
      * @param string|null $eventMethodShort
+     *
      * @return self
      */
     protected function CoreTrait_processTriggers(array $triggers, $eventClassObject, ?string $eventMethodShort): self
