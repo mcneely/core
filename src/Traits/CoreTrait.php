@@ -29,7 +29,7 @@ trait CoreTrait
     }
 
     /**
-     * @param object $eventClassObject    -- object as function type not introduced until 7.2
+     * @param object $eventClassObject -- object as function type not introduced until 7.2
      * @param string $eventImmediateClass
      * @param string $eventMethod
      * @param string $eventTrait
@@ -49,36 +49,9 @@ trait CoreTrait
 
         $eventMethodArray = !empty($eventMethod) ? explode('::', $eventMethod) : [];
         $eventMethodShort = array_pop($eventMethodArray);
-        $beforeMethod     = '__fireBefore_'.$eventMethodShort;
-        $triggers         = [];
+        $triggers         = $this->CoreTrait_buildTriggers($eventClassObject, $eventMethodShort);/**/
 
-        if (method_exists($eventClassObject, $beforeMethod)) {
-            $triggers[] = [
-                'method'  => $beforeMethod,
-                'exclude' => [],
-            ];
-        }
-
-        $functionTriggers = array_key_exists(
-            $eventMethodShort,
-            $this->CoreTrait_events
-        ) ? $this->CoreTrait_events[$eventMethodShort] : [];
-        $wildCardTriggers = array_key_exists('*', $this->CoreTrait_events) ? $this->CoreTrait_events['*'] : [];
-        $triggers         = array_merge($triggers, $functionTriggers, $wildCardTriggers);
-
-        foreach ($triggers as $trigger) {
-            if (!in_array($eventMethodShort, $trigger['exclude'])) {
-                $method = $trigger['method'];
-                if ($method instanceof \Closure) {
-                    $closure = \Closure::bind($method, $eventClassObject);
-                    $closure();
-                } else {
-                    $eventClassObject->$method();
-                }
-            }
-        }
-
-        return $this;
+        return $this->CoreTrait_processTriggers($triggers, $eventClassObject, $eventMethodShort);
     }
 
     /**
@@ -107,6 +80,55 @@ trait CoreTrait
         }
 
         return $traits;
+    }
+
+    /**
+     * @param object $eventClassObject
+     * @param string $eventMethodShort
+     * @return array
+     */
+    protected function CoreTrait_buildTriggers($eventClassObject, ?string $eventMethodShort): array
+    {
+        $beforeMethod = '__fireBefore_'.$eventMethodShort;
+        $triggers     = [];
+
+        if (method_exists($eventClassObject, $beforeMethod)) {
+            $triggers[] = [
+                'method'  => $beforeMethod,
+                'exclude' => [],
+            ];
+        }
+
+        $functionTriggers = array_key_exists(
+            $eventMethodShort,
+            $this->CoreTrait_events
+        ) ? $this->CoreTrait_events[$eventMethodShort] : [];
+        $wildCardTriggers = array_key_exists('*', $this->CoreTrait_events) ? $this->CoreTrait_events['*'] : [];
+
+        return array_merge($triggers, $functionTriggers, $wildCardTriggers);
+    }
+
+    /**
+     * @param array       $triggers
+     * @param object      $eventClassObject
+     * @param string|null $eventMethodShort
+     * @return self
+     */
+    protected function CoreTrait_processTriggers(array $triggers, $eventClassObject, ?string $eventMethodShort): self
+    {
+        foreach ($triggers as $trigger) {
+            if (!in_array($eventMethodShort, $trigger['exclude'])) {
+                $method = $trigger['method'];
+                if ($method instanceof \Closure) {
+                    $closure = \Closure::bind($method, $eventClassObject);
+                    $closure();
+                } else {
+                    $eventClassObject->$method();
+                }
+            }
+        }
+
+        return $this;
     }
 
     /**

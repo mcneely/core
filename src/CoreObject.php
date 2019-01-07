@@ -85,13 +85,21 @@ class CoreObject
             return $object;
         }
 
+        return $this->unwrapObject($object);
+    }
+
+    /**
+     * @param mixed $object
+     * @return mixed|ArrayIterator
+     */
+    public function unwrapObject($object)
+    {
         $object = ($object instanceof \IteratorAggregate) ? $object->getIterator() : $object;
         $object = ($object instanceof \IteratorIterator) ? $object->getInnerIterator() : $object;
         $object = ($object instanceof \Traversable) ? iterator_to_array($object) : $object;
         $object = (method_exists($object, 'toArray')) ? $object->toArray() : $object;
-        $object = (is_array($object)) ? new ArrayIterator($object) : $object;
 
-        return $object;
+        return (is_array($object)) ? new ArrayIterator($object) : $object;
     }
 
     /**
